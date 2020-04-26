@@ -1,9 +1,18 @@
-select
-	pp.pollingpla as name,
-	node.id as "node id",
-	ST_Distance(pp.geom, node.geom) as distance
+create or replace function find_nearst_node(ppName varchar(254)) returns int as
+$$
+declare
+    name varchar(254) = ppName;
+
+begin
+    return (
+		select
+	node.id
 from
     PP_2018General pp,
 	network_nodes node
-where node.geom && st_expand(pp.geom, 500) order by distance asc limit 10;
+where pp.pollingpla = name and
+node.geom && st_expand(pp.geom, 1500) order by ST_Distance(pp.geom, node.geom) asc limit 1
+		);
+end
+$$ language plpgsql;
 	
