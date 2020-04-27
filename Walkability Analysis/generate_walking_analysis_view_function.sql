@@ -6,6 +6,7 @@ create or replace function generate_walking_analysis_view(node int, ward_fips va
 $$
 
 begin
+	raise notice 'Generating walking analysis view for %.', ward_fips;
 	execute 'CREATE OR REPLACE VIEW v_'|| replace(ward_fips, ' ', '_') ||' AS 
 		SELECT di.seq, 
 			   di.id1, 

@@ -7,6 +7,7 @@ $$
 declare
     name varchar(254) = ppName;
 begin
+	raise notice 'Finding nearest node for polling place %', ppName;
     return (
 		select
 	    	node.id
