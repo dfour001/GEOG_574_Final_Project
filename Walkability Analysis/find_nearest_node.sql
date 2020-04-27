@@ -8,15 +8,30 @@ declare
     name varchar(254) = ppName;
 begin
 	raise notice 'Finding nearest node for polling place %', ppName;
-    return (
-		select
-	    	node.id
-		from
-    		PP_2018General pp,
-			network_nodes node
-		where pp.pollingpla = name and
-			node.geom && st_expand(pp.geom, 1500) order by ST_Distance(pp.geom, node.geom) asc limit 1
-		);
+	if exists (select * from pp_2018General where pollingpla = name)
+	then
+		--Search in 2018 PP
+		return (
+			select
+				node.id
+			from
+				PP_2018General pp,
+				network_nodes node
+			where pp.pollingpla = name and
+				node.geom && st_expand(pp.geom, 1500) order by ST_Distance(pp.geom, node.geom) asc limit 1
+				);
+	else
+		--Search in 2020PP
+		return (
+			select
+				node.id
+			from
+				PP_2020Spring pp,
+				network_nodes node
+			where pp.pollingpla = name and
+				node.geom && st_expand(pp.geom, 1500) order by ST_Distance(pp.geom, node.geom) asc limit 1
+				);
+	end if;
 end
 $$ language plpgsql;
 	
