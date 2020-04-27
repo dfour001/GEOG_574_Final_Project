@@ -32,7 +32,7 @@ create table walk_time_analysis_results as (
 	select
 		WARD_FIPS,
 		ppname18,
-		avg_travel_time(WARD_FIPS, ppname18) as walk_time_2016,
+		avg_travel_time(WARD_FIPS, ppname18) as walk_time_2018,
 		ppname20,
 		avg_travel_time(WARD_FIPS, ppname20) as walk_time_2020
 	from
