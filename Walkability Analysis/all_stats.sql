@@ -13,7 +13,8 @@ select
 	w.other18,
 	b.housing10,
 	b.pop10,
-	b.hhinc18
+	b.hhinc18,
+	w.geom
 from
 	walk_time_analysis_results wta,
 	wards w,
