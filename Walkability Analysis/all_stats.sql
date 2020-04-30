@@ -1,3 +1,5 @@
+drop table if exists ward_analysis;
+create table ward_analysis as (
 select
 	wta.ward_fips,
 	wta.ppname18,
@@ -19,9 +21,9 @@ from
 	walk_time_analysis_results wta,
 	wards w,
 	(select ward_fips,
-	 		round(avg(housing10)) housing10,
+	 		round(sum(housing10)) housing10,
 			sum(pop10) pop10,
 			round(avg(hhinc18)) hhinc18
 	 from blocks
 	 group by ward_fips) b
-where w.ward_fips = wta.ward_fips and w.ward_fips = b.ward_fips;
+where w.ward_fips = wta.ward_fips and w.ward_fips = b.ward_fips);
